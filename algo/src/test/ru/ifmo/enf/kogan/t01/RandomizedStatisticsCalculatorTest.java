@@ -1,4 +1,4 @@
-package ifmo.enf.kogan.t01;
+package ru.ifmo.enf.kogan.t01;
 
 import junit.framework.Assert;
 import org.junit.Test;
