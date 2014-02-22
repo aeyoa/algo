@@ -15,11 +15,11 @@ public class ProbabilityPair implements ParadoxModel.ProbabilityPair {
 
     @Override
     public double getIfChange() {
-        return 0;
+        return ifChange;
     }
 
     @Override
     public double getIfNotChange() {
-        return 0;
+        return ifNotChange;
     }
 }
