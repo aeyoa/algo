@@ -1,5 +1,6 @@
 package ru.ifmo.enf.kogan.t03;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -7,11 +8,21 @@ import java.util.Random;
  */
 public class ParadoxModelImpl implements ParadoxModel {
 
+    final Random random;
+
+    public ParadoxModelImpl() {
+        this.random = new Random();
+    }
+
+    public ParadoxModelImpl(final long randomSeed) {
+        this.random = new Random(randomSeed);
+    }
+
     @Override
     public ProbabilityPair getProbability(int repeats) {
 
-        int successCounterChange = 0;
-        int successCounterNotChange = 0;
+        double successCounterChange = 0;
+        double successCounterNotChange = 0;
         for (int i = 0; i < repeats; i++) {
             successCounterChange += startModeling(true) ? 1 : 0;
             successCounterNotChange += startModeling(false) ? 1 : 0;
@@ -23,16 +34,28 @@ public class ParadoxModelImpl implements ParadoxModel {
     private boolean startModeling(final boolean doChange) {
 
         final int numberOfDoors = 3;
-
         final Random random = new Random();
+
+
         final int prizeDoor = random.nextInt(numberOfDoors); // Prize is behind one of the doors
         final int firstDecision = random.nextInt(numberOfDoors);
-        final int openedDoor = prizeDoor + 1 % numberOfDoors;
-        final int secondDecision = (openedDoor + random.nextInt(numberOfDoors - 1) + 1) % numberOfDoors;
-        if (doChange) {
+        final int openedDoor = avoidTheseNumbers(numberOfDoors, new Integer[]{firstDecision, prizeDoor});
+
+        if (!doChange) {
+            return firstDecision == prizeDoor;
+        } else {
+            int secondDecision = avoidTheseNumbers(numberOfDoors, new Integer[]{firstDecision, openedDoor});
             return secondDecision == prizeDoor;
         }
-        return firstDecision == prizeDoor;
+    }
+
+    private int avoidTheseNumbers(final int range, final Integer[] avoid) {
+        for (int i = 0; i < range; i++) {
+            if (!Arrays.<Integer>asList(avoid).contains(i)) {
+                return i;
+            }
+        }
+        throw new IllegalStateException();
     }
 
 }
