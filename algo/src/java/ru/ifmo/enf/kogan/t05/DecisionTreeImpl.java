@@ -15,4 +15,9 @@ public class DecisionTreeImpl<E extends Enum<E>> implements DecisionTree {
     public Enum getCategory(final Entity entity) {
         return rootNode.getCategory(entity);
     }
+
+    @Override
+    public String toString() {
+        return rootNode.toString();
+    }
 }

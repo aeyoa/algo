@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Entity<E extends Enum<E>> implements DecisionTree.Entity {
 
     private final HashMap<String, String> attributes;
-    private final E category;
+    private final E category; // If known
 
     // Unknown category entity constructor
     public Entity(final HashMap<String, String> attributes) {
