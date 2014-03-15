@@ -1,6 +1,6 @@
 package ru.ifmo.enf.kogan.t05;
 
-import com.sun.org.apache.xpath.internal.functions.FuncId;
+
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -86,7 +86,7 @@ public class DecisionTreeTest extends Assert {
 
     }
 
-    
+
     /*
     * Converts human notation (e.g. "color", "red", "size", "small") in HashMap.
     * Splits list of attributes into pairs and adds them to HashMap.
