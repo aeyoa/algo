@@ -16,7 +16,6 @@ public class ParadoxModelImpl implements ParadoxModel {
 
     public ParadoxModelImpl(final long randomSeed) {
         this.random = new Random(randomSeed);
-        random.setSeed(randomSeed);
     }
 
     @Override
