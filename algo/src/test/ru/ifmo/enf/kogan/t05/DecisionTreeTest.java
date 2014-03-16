@@ -1,6 +1,5 @@
 package ru.ifmo.enf.kogan.t05;
 
-
 import junit.framework.Assert;
 import org.junit.Test;
 
