@@ -16,6 +16,7 @@ public class ParadoxModelImpl implements ParadoxModel {
 
     public ParadoxModelImpl(final long randomSeed) {
         this.random = new Random(randomSeed);
+        random.setSeed(randomSeed);
     }
 
     @Override
@@ -34,8 +35,6 @@ public class ParadoxModelImpl implements ParadoxModel {
     private boolean startModeling(final boolean doChange) {
 
         final int numberOfDoors = 3;
-        final Random random = new Random();
-
 
         final int prizeDoor = random.nextInt(numberOfDoors); // Prize is behind one of the doors
         final int firstDecision = random.nextInt(numberOfDoors);
