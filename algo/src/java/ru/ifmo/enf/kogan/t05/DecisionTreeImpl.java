@@ -5,9 +5,9 @@ package ru.ifmo.enf.kogan.t05;
  */
 public class DecisionTreeImpl<E extends Enum<E>> implements DecisionTree {
 
-    private final TreeNode rootNode;
+    private final TreeNode<E> rootNode;
 
-    public DecisionTreeImpl(final TreeNode rootNode) {
+    public DecisionTreeImpl(final TreeNode<E> rootNode) {
         this.rootNode = rootNode;
     }
 

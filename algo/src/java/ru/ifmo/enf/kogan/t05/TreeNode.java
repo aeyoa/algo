@@ -11,10 +11,9 @@ public class TreeNode<E extends Enum<E>> {
     private final E result;
     // Tab size
     private String tab = "";
-    private String tabIncrement = " .";
 
     // Constructor for node with factor
-    public TreeNode(final DecisionTree.Factor factor, final TreeNode noNode, final TreeNode yesNode) {
+    public TreeNode(final DecisionTree.Factor factor, final TreeNode<E> noNode, final TreeNode<E> yesNode) {
         this.factor = factor;
         this.noNode = noNode;
         this.yesNode = yesNode;
@@ -54,6 +53,7 @@ public class TreeNode<E extends Enum<E>> {
         if (result != null) {
             return result.toString();
         }
+        final String tabIncrement = " .";
         noNode.setTab(tab + tabIncrement);
         yesNode.setTab(tab + tabIncrement);
         return factor.name() + "\n" + tab + " F: " + noNode.toString() + "\n" + tab + " T: " + yesNode.toString();
