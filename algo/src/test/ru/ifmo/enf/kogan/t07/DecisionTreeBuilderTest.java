@@ -20,7 +20,7 @@ public class DecisionTreeBuilderTest extends Assert {
     }
 
     @Test
-    public void sandbox() {
+    public void simpleTree() {
         final List<DecisionTreeBuilder.DataItem<Category>> items = new ArrayList<DecisionTreeBuilder.DataItem<Category>>() {
             {
                 add(new DataItem<Category>(getEntityByAttributes("country", "usa", "faq", ">20"), Category.PREMIUM));
@@ -45,6 +45,64 @@ public class DecisionTreeBuilderTest extends Assert {
 
     }
 
+    @Test
+    public void accountTree() {
+        final List<DecisionTreeBuilder.DataItem<Category>> items = new ArrayList<DecisionTreeBuilder.DataItem<Category>>() {
+            {
+                add(new DataItem<Category>(getEntityByAttributes("from", "slashdot", "country", "usa", "faq", "yes", "pages", "18"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "google", "country", "france", "faq", "yes", "pages", "23"),
+                        Category.PREMIUM));
+                add(new DataItem<Category>(getEntityByAttributes("from", "digg", "country", "usa", "faq", "yes", "pages", "24"),
+                        Category.BASIC));
+                add(new DataItem<Category>(getEntityByAttributes("from", "kiwitobes", "country", "france", "faq", "yes", "pages", "23"),
+                        Category.BASIC));
+                add(new DataItem<Category>(getEntityByAttributes("from", "google", "country", "gb", "faq", "no", "pages", "21"),
+                        Category.PREMIUM));
+                add(new DataItem<Category>(getEntityByAttributes("from", "-", "country", "nz", "faq", "no", "pages", "12"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "-", "country", "gb", "faq", "no", "pages", "21"),
+                        Category.BASIC));
+                add(new DataItem<Category>(getEntityByAttributes("from", "google", "country", "usa", "faq", "no", "pages", "24"),
+                        Category.PREMIUM));
+                add(new DataItem<Category>(getEntityByAttributes("from", "slashdot", "country", "france", "faq", "yes", "pages", "19"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "digg", "country", "usa", "faq", "no", "pages", "18"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "google", "country", "gb", "faq", "no", "pages", "18"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "kiwitobes", "country", "gb", "faq", "no", "pages", "19"),
+                        Category.NONE));
+                add(new DataItem<Category>(getEntityByAttributes("from", "digg", "country", "nz", "faq", "yes", "pages", "12"),
+                        Category.BASIC));
+                add(new DataItem<Category>(getEntityByAttributes("from", "google", "country", "gb", "faq", "yes", "pages", "18"),
+                        Category.BASIC));
+                add(new DataItem<Category>(getEntityByAttributes("from", "kiwitobes", "country", "france", "faq", "yes", "pages", "19"),
+                        Category.BASIC));
+            }
+        };
+
+        final List<DecisionTree.Factor> factors = new ArrayList<DecisionTree.Factor>() {
+            {
+                addAll(getAllFactors("from", "google", "digg","slashdot", "kiwitobes", "-"));
+                addAll(getAllFactors("country", "usa", "france", "gb", "nz"));
+                addAll(getAllFactors("faq", "yes"));
+                addAll(getAllNumericFactors("pages", 12, 24));
+
+            }
+        };
+
+        final DecisionTreeBuilder<Category> treeBuilder = new DecisionTreeBuilderImpl<Category>();
+        final DecisionTree<Category> decisionTree = treeBuilder.buildTree(items, factors);
+        assertEquals(Category.NONE,
+                decisionTree.getCategory(getEntityByAttributes("from", "slashdot", "country", "usa", "faq", "yes", "pages", "18")));
+        assertEquals(Category.PREMIUM,
+                decisionTree.getCategory(getEntityByAttributes("from", "google", "country", "france", "faq", "yes", "pages", "23")));
+        assertEquals(Category.BASIC,
+                decisionTree.getCategory(getEntityByAttributes("from", "digg", "country", "usa", "faq", "yes", "pages", "24")));
+
+    }
+
     /*
     * Converts human notation (e.g. "color", "red", "size", "small") in HashMap.
     * Splits list of attributes into pairs and adds them to HashMap.
@@ -59,4 +117,43 @@ public class DecisionTreeBuilderTest extends Assert {
         final DecisionTree.Entity entity = new Entity<Category>(attributes);
         return entity;
     }
+
+    /*
+    * Returns a list of all possible factors by given values and key name. */
+    private List<DecisionTree.Factor> getAllFactors(final String key, final String... possibleValues) {
+        final List<DecisionTree.Factor> factors = new ArrayList<DecisionTree.Factor>();
+        for (final String value : possibleValues) {
+            factors.add(new NodeFactor(key + "=" + value, key, value));
+        }
+        return factors;
+    }
+
+    /*
+    * Creates numeric factors for range [from : to].
+     * E.g. getAllNumericFactors("pages", 1, 3) gives
+     * three factors: ">1" , ">2" and ">3" */
+    private List<DecisionTree.Factor> getAllNumericFactors(final String key, final int from, final int to) {
+        final List<DecisionTree.Factor> factors = new ArrayList<DecisionTree.Factor>();
+
+        for (int i = from; i <= to; i++) {
+            final int val = i;
+            factors.add(new DecisionTree.Factor() {
+                private final String name = key + ">" + val;
+                private final int value = val;
+                private final String inKey = key;
+                @Override
+                public String name() {
+                    return name;
+                }
+
+                @Override
+                public boolean is(final DecisionTree.Entity entity) {
+                    return (Integer.parseInt(entity.getAttributeValue(inKey)) >= val);
+                }
+            });
+        }
+        return factors;
+    }
+
+
 }
