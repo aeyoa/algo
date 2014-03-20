@@ -40,7 +40,7 @@ public class DecisionTreeBuilderTest extends Assert {
 
         final DecisionTreeBuilder<Category> treeBuilder = new DecisionTreeBuilderImpl<Category>();
         final DecisionTree<Category> decisionTree = treeBuilder.buildTree(items, factors);
-        final Category category = decisionTree.getCategory(getEntityByAttributes("country", "germany", "faq", "15"));
+        final Category category = decisionTree.getCategory(getEntityByAttributes("country", "germany", "faq", ">10"));
         assertEquals(Category.BASIC, category);
 
     }
