@@ -9,7 +9,7 @@ public class PrimalityTestImpl implements ProbablyPrimeCalculator {
 
     final Random random = new Random();
 
-    public Pr imalityTestImpl() {
+    public PrimalityTestImpl() {
 
     }
 
