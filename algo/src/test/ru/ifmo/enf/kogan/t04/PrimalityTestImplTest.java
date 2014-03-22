@@ -32,7 +32,6 @@ public class PrimalityTestImplTest extends Assert {
     @Test
     public void primeNumbersFrom1000to3000() {
         final ProbablyPrimeCalculator primeCalculator = new PrimalityTestImpl();
-
         final long[] primeNumbers = {1009, 1013, 1019,
                 1021, 1031, 1033, 1039, 1049, 1051, 1061, 1063, 1069,
                 1087, 1091, 1093, 1097, 1103, 1109, 1117, 1123, 1129,
@@ -63,7 +62,6 @@ public class PrimalityTestImplTest extends Assert {
                 2791, 2797, 2801, 2803, 2819, 2833, 2837, 2843, 2851,
                 2857, 2861, 2879, 2887, 2897, 2903, 2909, 2917, 2927,
                 2939, 2953, 2957, 2963, 2969, 2971, 2999};
-
         for (long primeNumber : primeNumbers) {
             assertTrue(primeCalculator.isProbablyPrime(primeNumber));
         }
