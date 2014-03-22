@@ -9,7 +9,7 @@ public class PrimalityTestImpl implements ProbablyPrimeCalculator {
 
     final Random random = new Random();
 
-    public PrimalityTestImpl() {
+    public Pr imalityTestImpl() {
 
     }
 
@@ -70,10 +70,11 @@ public class PrimalityTestImpl implements ProbablyPrimeCalculator {
             t = a;
         } else {
             long temp = powerMod(a, b / 2, m);
-            if (b % 2 == 0)
+            if (b % 2 == 0) {
                 t = (temp * temp) % m;
-            else
+            } else {
                 t = ((temp * temp) % m) * a % m;
+            }
         }
         return t % m;
     }
