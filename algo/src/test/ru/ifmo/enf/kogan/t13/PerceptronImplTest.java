@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 /**
  * Created by arsenykogan on 12/04/14.
  */
@@ -13,6 +14,7 @@ public class PerceptronImplTest extends Assert {
 
     @Test
     public void logicalOR_OnlyNeededTrainingData() {
+
         final PerceptronTrainingImpl perceptronTraining = new PerceptronTrainingImpl();
         final ArrayList trainingDataList = new ArrayList<PerceptronTraining.TrainingData>() {
             {
@@ -39,6 +41,7 @@ public class PerceptronImplTest extends Assert {
         };
 
         for (int i = 0; i < 100; i++) {
+
             final PerceptronTraining.Perceptron p = perceptronTraining.train(.1, trainingDataList);
             assertEquals(1.0, p.getOutput(Arrays.asList(1d, 1d, 0d)));
             assertEquals(1.0, p.getOutput(Arrays.asList(1d, 0d, 1d)));
@@ -86,4 +89,5 @@ public class PerceptronImplTest extends Assert {
                 assertEquals(-1.0, p.getOutput(Arrays.asList(1d, 0d, 0d)));
             }
         }
+
 }
