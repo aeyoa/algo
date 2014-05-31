@@ -25,14 +25,13 @@ public class EditDistanceCalculatorImpl implements EditDistanceCalculator {
 
         for (int j = 1; j <= l2; j++) {
             for (int i = 1; i <= l1; i++) {
-                if (s1.substring(0, i).equals(s2.substring(0, j))) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
                     distances[i][j] = distances[i - 1][j - 1];
                 } else {
                     int delete = distances[i - 1][j] + 1;
                     int insert = distances[i][j - 1] + 1;
                     int replace = distances[i - 1][j - 1] + 1;
                     distances[i][j] = Collections.min(Arrays.asList(delete, insert, replace));
-                    System.out.println(delete + " " + insert + " " + replace + " : " + distances[i][j]);
                 }
             }
 

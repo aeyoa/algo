@@ -2,7 +2,6 @@ package ru.ifmo.enf.kogan.finaltest;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import ru.ifmo.enf.kogan.finaltask.EditDistanceCalculator;
 import ru.ifmo.enf.kogan.finaltask.EditDistanceCalculatorImpl;
 
 /**
@@ -27,6 +26,6 @@ public class EditDistanceCalculatorTest extends Assert {
 
     @Test
     public void testEmpty() throws Exception {
-        assertEquals(0,new EditDistanceCalculatorImpl().getEditDistance("", ""));
+        assertEquals(0, new EditDistanceCalculatorImpl().getEditDistance("", ""));
     }
 }
